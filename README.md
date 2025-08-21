@@ -1,8 +1,6 @@
-# HRNet
+# RepLKHRNet
 
 ## 该项目主要参考以下仓库
-* https://github.com/leoxiaobin/deep-high-resolution-net.pytorch
-* https://github.com/stefanopini/simple-HRNet
 
 ## 环境配置：
 * Python3.6/3.7/3.8
@@ -26,31 +24,7 @@
 ```
 
 ## 预训练权重下载地址（下载后放入当前文件夹中）：
-由于原作者提供的预训练权重(Imagenet和COCO)是放在GoogleDrive和OneDrive上的，国内无法正常访问。所有我提前将权重文件全部下载并放在百度网盘中，
-需要的可以自行下载，链接:https://pan.baidu.com/s/1Lu6mMAWfm_8GGykttFMpVw 提取码:f43o
-
-下载后的目录结构如下：
-```
-├── pytorch
-      ├── pose_mpii
-      ├── pose_coco
-      │     ├── pose_resnet_50_384x288.pth
-      │     ├── pose_resnet_50_256x192.pth
-      │     ├── pose_resnet_101_384x288.pth
-      │     ├── pose_resnet_101_256x192.pth
-      │     ├── pose_hrnet_w32_384x288.pth
-      │     └── pose_hrnet_w32_256x192.pth
-      └── imagenet
-            ├── resnet50-19c8e357.pth
-            ├── resnet152-b121ed2d.pth
-            ├── resnet101-5d3b4d8f.pth
-            └── hrnet_w32-36af842e.pth
-```
-如果要直接使用在COCO数据集上预训练好的权重进行预测，下载pose_coco下的`pose_hrnet_w32_256x192.pth`使用即可。
-如果要从头训练网络，下载imagenet下的`hrnet_w32-36af842e.pth`文件，并重命名为`hrnet_w32.pth`即可。
-
-除此之外，还有一个`person_detection_results`文件，存储的是论文中提到的人体检测器的检测结果，如果需要使用可以下载，但个人建议直接使用COCO val中GT信息即可。
-链接: https://pan.baidu.com/s/19Z4mmNHUD934GQ9QYcF5iw  密码: i08q
+* 待补充
  
 ## 数据集，本例程使用的是COCO2017数据集
 * COCO官网地址：https://cocodataset.org/
@@ -74,9 +48,6 @@
 ```
 
 ## 训练方法
-* 注：该项目从头训练HRNet在MS COCO2017的val上的mAP[@0.50:0.95]为76.1，利用原作者提供的权重在val上的mAP[@0.50:0.95]为76.6，相差0.5个点，
-暂时没有找到原因。由于训练该网络需要迭代210个epoch(按照论文中的数据)，训练时间很长，建议直接使用原作者提供训练好的权重。另外，在训练过程中发现GPU的利用率
-并不高(在20%~60%之间浮动)，暂时猜测是网络结构的原因。
 * 确保提前准备好数据集
 * 确保提前下载好对应预训练模型权重
 * 确保设置好`--num-joints`(对于人体检测的关键点个数，COCO是17个点)、`--fixed-size`(输入目标图像的高宽，默认[256, 192])和`--data-path`(指向`coco2017`目录)
@@ -93,13 +64,3 @@ python train.py --data-path /data/coco2017
 ```
 2. 训练过程中保存的`results.txt`是每个epoch在验证集上的COCO指标，前10个值是COCO指标，后面两个值是训练平均损失以及学习率
 3. 在使用预测脚本时，如果要读取自己训练好的权重要将`weights_path`设置为你自己生成的权重路径。
-
-
-## 如果对HRNet网络不是很理解可参考我的bilibili
-https://www.bilibili.com/video/BV1bB4y1y7qP
-
-## 进一步了解该项目，以及对HRNet代码的分析可参考我的bilibili
-https://www.bilibili.com/video/BV1ar4y157JM
-
-## HRNet网络结构图
-![HRNet.png](HRNet.png)
